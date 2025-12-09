@@ -9,7 +9,6 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { useEffect } from "react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -23,6 +22,12 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
+import { registerLicense } from "@syncfusion/ej2-base";
+if (typeof window !== "undefined") {
+  registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
+}
+
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -43,15 +48,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  useEffect(() => {
-    // Register Syncfusion license only on client side
-    if (typeof window !== 'undefined') {
-      import('@syncfusion/ej2-base').then(({ registerLicense }) => {
-        registerLicense(import.meta.env.VITE_SYNCFUSION_LICENSE_KEY);
-      });
-    }
-  }, []);
-
   return <Outlet />;
 }
 
