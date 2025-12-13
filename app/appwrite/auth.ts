@@ -2,6 +2,12 @@ import { ID, OAuthProvider, Query } from "appwrite";
 import { account, database, appwriteConfig } from "~/appwrite/client";
 import { redirect } from "react-router";
 
+
+export const loader = async () =>{
+  const {users, total} = await getAllUsers(10,0);
+  return {users, total};
+}
+
 export const getExistingUser = async (id: string) => {
   try {
     const { documents, total } = await database.listDocuments(
@@ -101,3 +107,19 @@ export const getUser = async () => {
     return null;
   }
 };
+
+export const getAllUsers = async (limit: number, offset:number) => {
+  try{
+      const {documents:users, total} = await database.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.userCollectionId,
+        [Query.limit(limit), Query.offset(offset)]
+      )
+      if(total === 0) return {users: [], total};
+
+      return {users, total};
+  }catch(e){
+    console.log("Error fetching all users:", e);
+    return {users: [], total: 0};
+  }
+}

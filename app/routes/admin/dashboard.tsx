@@ -1,9 +1,11 @@
 import { getUser } from "~/appwrite/auth";
-import { Header } from "~/components";
+import Header from "~/components/Header";
 import { StatsCard } from "~/components";
 import { TripCard } from "~/components";
 import { dashboardStats, user, allTrips } from "~/constants";
 import type {Route} from './+types/dashboard';
+
+
 
   const { totalUsers, usersJoined, totalTrips, tripsCreated, userRole } =
     dashboardStats;
@@ -36,9 +38,9 @@ const Dashboard = ({loaderData}: Route.ComponentProps) => {
           />
           <StatsCard
             headerTitle="Total Users"
-            total={userRole.total}
-            currentMonthCount={userRole.currentMonth}
-            lastMonthCount={userRole.lastMonth}
+            total={dashboardStats.userRole.total}
+            currentMonthCount={dashboardStats.userRole.currentMonth}
+            lastMonthCount={dashboardStats.userRole.lastMonth}
           />
         </div>
       </section>

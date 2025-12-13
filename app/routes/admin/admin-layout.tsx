@@ -13,9 +13,10 @@ export async function clientLoader(){
             }
 
           const existingUser = await getExistingUser(user.$id); 
-          if(existingUser?.status === 'user'){
-            return redirect('/');
-          }
+          // Temporarily disabled - uncomment to restrict access to admin only
+          // if(existingUser?.status === 'user'){
+          //   return redirect('/sign-in');
+          // }
 
           return existingUser?.$id ? existingUser : await storeUserData();
     }catch(e){
