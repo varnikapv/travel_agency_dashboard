@@ -32,6 +32,9 @@ export const storeUserData = async () => {
       ? await getGooglePicture(providerAccessToken)
       : null;
 
+    // Truncate name to 20 characters to match database schema
+    const truncatedName = user.name.length > 20 ? user.name.substring(0, 20) : user.name;
+
     const createdUser = await database.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
@@ -39,15 +42,16 @@ export const storeUserData = async () => {
       {
         accountId: user.$id,
         email: user.email,
-        name: user.name,
+        name: truncatedName,
         imageUrl: profilePicture,
         joinedAt: new Date().toISOString(),
       }
     );
 
-    if (!createdUser.$id) redirect("/sign-in");
+    return createdUser;
   } catch (error) {
     console.error("Error storing user data:", error);
+    throw error;
   }
 };
 
@@ -97,7 +101,7 @@ export const getUser = async () => {
       appwriteConfig.userCollectionId,
       [
         Query.equal("accountId", user.$id),
-        Query.select(["name", "email", "imageUrl", "joinedAt", "accountId"]),
+        Query.select(["name", "email", "imageUrl", "joinedAt", "accountId", "status"]),
       ]
     );
 

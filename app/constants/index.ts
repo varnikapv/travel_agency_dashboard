@@ -227,3 +227,4 @@ export default [
     route("all-users", "routes/admin/all-users.tsx"),
   ]),
 ] satisfies RouteConfig;
+

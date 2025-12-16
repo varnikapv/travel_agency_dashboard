@@ -101,7 +101,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps ) => {
 
            if (result?.id) {
                console.log('Navigating to trip:', result.id);
-               navigate(`/trips/${result.id}`);
+               navigate(`/travel/${result.id}`);
            } else {
                setError('Trip created but no ID returned');
                console.error('No trip ID in response:', result);
@@ -116,7 +116,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps ) => {
 
     const handleChange = (key: keyof TripFormData, value: string | number)  => {
     setFormData({ ...formData, [key]: value})
-    setError(null); // Clear error when user makes changes
+    setError(null);
     }
     const countryData = countries.map((country) => ({
         text: country.name,

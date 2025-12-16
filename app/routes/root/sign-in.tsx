@@ -12,8 +12,10 @@ export async function clientLoader(){
             if(user.$id){
                 return redirect("/");
             }
+            return null;
     }catch(e){
         console.log("error fetching user", e);
+        return null;
     }
 }
 
@@ -45,7 +47,7 @@ const SignIn = () => {
                         type = "button"
                         iconCss = "e-search-icon"
                         alt='Google Icon' 
-                        className='button-class !h-11 !w-full'
+                        cssClass='button-class !h-11 !w-full'
                         onClick={loginWithGoogle} >
                     <img 
                         src='/assets/icons/google.svg' 

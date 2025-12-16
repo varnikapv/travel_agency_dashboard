@@ -28,22 +28,42 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const unsplashApiKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
     const prompt = `
-Return ONLY valid JSON.
-Do NOT use markdown.
-Do NOT add explanations.
+Create a ${numberOfDays}-day travel itinerary for ${country} with ${travelStyle} travel style, ${interests} interests, ${budget} budget, and ${groupType} group type.
 
+Return ONLY valid JSON without markdown code blocks or explanations.
+
+Required JSON structure:
 {
-  "name": "A descriptive title for the trip",
-  "description": "A brief description not exceeding 100 words",
-  "estimatedPrice": "$price",
+  "name": "Descriptive trip title",
+  "description": "Brief description (max 100 words)",
+  "estimatedPrice": "$XXXX",
   "duration": ${numberOfDays},
   "budget": "${budget}",
   "travelStyle": "${travelStyle}",
   "country": "${country}",
   "interests": "${interests}",
   "groupType": "${groupType}",
-  "itinerary": []
+  "bestTimeToVisit": ["Month 1", "Month 2", "Month 3"],
+  "weatherInfo": ["Weather detail 1", "Weather detail 2"],
+  "itinerary": [
+    {
+      "day": 1,
+      "location": "City/Place name",
+      "activities": [
+        {
+          "time": "9:00 AM",
+          "description": "Activity description"
+        },
+        {
+          "time": "12:00 PM",
+          "description": "Activity description"
+        }
+      ]
+    }
+  ]
 }
+
+CRITICAL: Generate a COMPLETE itinerary array with ${numberOfDays} days. Each day MUST have 4-6 activities with specific times and descriptions. Do NOT return an empty itinerary array.
 `;
 
     const textResult = await genAI

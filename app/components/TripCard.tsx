@@ -5,13 +5,32 @@ import { ChipListComponent, ChipsDirective, ChipDirective } from '@syncfusion/ej
 import { cn } from '~/lib/utils';
 const TripCard = ({id, name, location, imageUrl, tags, price}: TripCardProps) => {
     const path = useLocation();
+    
+    const placeholderImages = [
+        '/assets/images/sample1.jpg',
+        '/assets/images/sample2.jpg',
+        '/assets/images/sample3.jpg',
+        '/assets/images/sample4.jpg',
+    ];
+    
+    // Use id to consistently pick a placeholder image
+    const getPlaceholderImage = () => {
+        const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        return placeholderImages[hash % placeholderImages.length];
+    };
 
   return (
     <Link to={path.pathname === '/' || path.pathname.startsWith
         ('/travel') ? `/travel/${id}` : `/trips/${id}`
     }
     className="trip-card">
-        <img src = {imageUrl} alt={name}/>
+        <img 
+            src={imageUrl || getPlaceholderImage()} 
+            alt={name}
+            onError={(e) => {
+                e.currentTarget.src = getPlaceholderImage();
+            }}
+        />
         <article>
             <h2>{name}</h2>
             <figure>

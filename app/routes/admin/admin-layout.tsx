@@ -8,20 +8,30 @@ export async function clientLoader(){
     try{
             const user = await account.get()
 
-            if(!user.$id){
-                return redirect("/sign-in");
+            if(!user || !user.$id){
+                throw new Error("No user found");
             }
 
           const existingUser = await getExistingUser(user.$id); 
-          // Temporarily disabled - uncomment to restrict access to admin only
-          // if(existingUser?.status === 'user'){
-          //   return redirect('/sign-in');
-          // }
+          
+          // Restrict access to admin only
+          if(existingUser?.status === 'user'){
+            throw redirect('/');
+          }
 
           return existingUser?.$id ? existingUser : await storeUserData();
-    }catch(e){
+    }catch(e: any){
         console.log("error in client loader", e);
-        return redirect("/sign-in")
+        
+        // Clear auth cache
+        if (e?.code === 401 || e?.type === 'general_unauthorized_scope') {
+            if (typeof window !== 'undefined') {
+                sessionStorage.clear();
+                localStorage.clear();
+            }
+        }
+        
+        throw redirect("/sign-in")
     }
 }
 

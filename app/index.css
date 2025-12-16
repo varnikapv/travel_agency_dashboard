@@ -1,0 +1,19 @@
+.itinerary > li > ul > li > span {
+  display: block !important;
+  color: #2e2c48 !important; /* dark-400 */
+  font-weight: 600 !important;
+}
+
+.itinerary > li > ul > li > p {
+  display: block !important;
+  color: #2e2c48 !important; /* dark-400 */
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .itinerary > li > ul > li > span,
+  .itinerary > li > ul > li > p {
+    font-size: 18px;
+  }
+}
